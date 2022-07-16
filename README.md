@@ -75,8 +75,8 @@ If you use a little fan you can put it on 3.3V and there is a last GND
 
 
 ## License
-It's free
-I hope it help you
+It's free,
+I hope it help you,
 If you think my code is nice thanks to credit.
 Have fun :)
 
