@@ -1,12 +1,12 @@
 //************************* DESSINS ****************************************
 static const uint8_t PROGMEM
-// PROGMEM pour moins de place
-// ; pour le dernier dessin et , pour les autres
+// PROGMEM to take less place
+// ; for the last , for the other
 
 
 /***************************************************/
 
-// dent arrière
+// teeth behind
 nose_right_1[]=
 {
 B00000001,
@@ -146,7 +146,7 @@ B00000111,
 },
 
 /***********************************/
-// eye goute + grande dent avant
+// eye drop + big teeth
 nose_right_2[]=
 {
 B00000001,
@@ -841,7 +841,7 @@ B00001111,
 },
 
 /***********************************/
-// best dent
+// best teeth
 nose_right_7[]=
 {
 B00000000,
@@ -980,7 +980,7 @@ B00011000,
 },
 
 /***********************************/
-// triangle inverse + mouth aggrandir
+// triangle upside down + mouth bigger
 nose_right_8[]=
 {
 B00000000,
@@ -1119,7 +1119,7 @@ B10000000,
 },
 
 /***********************************/
-// éclair
+// lightning
 nose_right_9[]=
 {
 B00000000,
@@ -1258,7 +1258,7 @@ B00110000,
 },
 
 /***********************************/
-//base
+// base
 nose_left_A[]=
 {
 B00000000,
@@ -1397,7 +1397,7 @@ B00000111,
 },
 
 /**************************************************************/
-//disparition avec plusieurs eye
+// disappear eyes
 nose_left_B[]=
 {
 B00000000,
@@ -1942,9 +1942,8 @@ B11111011,
 },
 
 
-//; pour le dernier / , pour les autres
-
-// juste pour avoir un pattern si besoin
+// **********************************
+// just to have a pattern 
 pattern[]=
 {
 B00000000,

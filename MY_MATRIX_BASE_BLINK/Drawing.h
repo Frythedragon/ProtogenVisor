@@ -1,7 +1,7 @@
 //************************* DESSINS ****************************************
 static const uint8_t PROGMEM
-// PROGMEM pour moins de place
-// ; pour le dernier dessin et , pour les autres
+// PROGMEM to take less place
+// ; for the last , for the other
 
 
 /***************************************************/
@@ -144,7 +144,7 @@ B00000111,
 },
 
 /***************************************************/
-//; pour le dernier / , pour les autres
+// just to have a pattern
 pattern[]=
 {
 B00000000,

@@ -1,39 +1,39 @@
 //***************************** BLUETOOTH ************************************
 /*
-BUT : envoyer un chiffre / une lettre avec le bluetooth du téléphone ce qui changeras les LED en consequence
+BUT : send a number / letter with phone by bluetooth and it will change expressions
 
 
 
 Version 2.0 --- mise à jour le 14/07/2022
 
-Matrices de LED utilisées : Adafruit Small 1.2" 8x8 LED Matrix w/I2C Backpack
+Matrices de LED used : Adafruit Small 1.2" 8x8 LED Matrix w/I2C Backpack
                             16x8 1.2" LED Matrix + Backpack
-Fonctionnalitées : plusieurs expressions
-                   passe en mode sleep()
-                   communication bluetooth
-                   confirme l'expression en envoyant le chiffre/lettre sur le téléphone
+Fonctionnalities : multi expressions
+                   sleep() mode
+                   bluetooth communications
+                   confirms the expression by sending a number/letter to the phone
+                   
 
-Installer les bibliothèques : Outils -> Gérer les bibliothèques
+download libraries: Tools -> Manage libraries
 
 
 
-Branchement des cables :
-    - pour les matrices de LED :
+Wiring cables :
+    - for LED matrix :
         5V / GND / SCL / SDA
-    - pour le ventillateur :
+    - for little fan :
         3.3V / GND
-    - pour le module bluetooth HC-05 (code 1234 ou 0000)
-        IOREF(c'est comme le 5V) / GND / 2pattes(ici 2 et 6)    
+    - for bluetooth HC-05 (code 1234 ou 0000 for the first connection with the phone)
+        IOREF(it's like 5V) / GND / 2pin (here 2 and 6)    
 
-Connecter le bluetooth avec le téléphone
-Envoyer deux fois le code 
--> première fois pour réveiller la carte
--> deuxième fois pour envoyer le code
--> example: 11
+Connected bluetooth with the phone
+Send two time the same number / letter (first to wake up the card the second to give instruction)
+-> example: 11 instead of 1
 
--> ne pas envoyer de code lorsque les programmes qui changent tournent (B et C)
+-> don't send instruction while other aren't finish (for B et C)
+-> informations are send to your phone to know what append
 
--> si ça bug: reset la carte Arduino avec le bouton qui est dessus
+-> if there is bug: use the reset button of the Arduino card
 
 
 
@@ -43,18 +43,18 @@ Envoyer deux fois le code
 
 
 //***************************** INCLUDE ************************************
-#include <Wire.h> // matrices LED
-#include <Adafruit_GFX.h> // matrices LED
-#include "Adafruit_LEDBackpack.h" // matrices LED
+#include <Wire.h> // matrix LED
+#include <Adafruit_GFX.h> // matrix LED
+#include "Adafruit_LEDBackpack.h" // matrix LED
 
 #include <SoftwareSerial.h> // bluetooth
-#include "Drawing.h"  // fichier des matrices
-#include <avr/sleep.h>  // mode sleep()
+#include "Drawing.h"  // file for expressions
+#include <avr/sleep.h>  // sleep() mode
 
 
 //***************************** DECLARATIONS NOMS ET NUMEROS DES MATRICES ************************************
-// nom des matrices
-// chiffre pour faire des boucles facilemmnent
+// name of matrix
+// name is NR, number is the one from A0-A1-A2 that you solder
 #define NR      0     // NR = 0
 #define NL      1
 #define ER      2
@@ -64,46 +64,35 @@ Envoyer deux fois le code
 #define ML1     6
 #define ML2     7
 
-// déclaration type matrice
-//Adafruit_8x8matrix matrix[NR] = Adafruit_8x8matrix();
-//Adafruit_8x8matrix matrix[NL] = Adafruit_8x8matrix();
-//Adafruit_8x16matrix matrix[ER] = Adafruit_8x16matrix();
-//Adafruit_8x16matrix matrix[EL] = Adafruit_8x16matrix();
-//Adafruit_8x16matrix matrix[MR1] = Adafruit_8x16matrix();
-//Adafruit_8x16matrix matrix[MR2] = Adafruit_8x16matrix();
-//Adafruit_8x16matrix matrix[ML1] = Adafruit_8x16matrix();
-//Adafruit_8x16matrix matrix[ML2] = Adafruit_8x16matrix();
-
-//autre déclaration
-Adafruit_8x16matrix matrix[8];  //[nb matrices]
+// declaration
+Adafruit_8x16matrix matrix[8];  //[nb of matrix => 8 matrix in total]
 
 
 //************************* VARIABLES ****************************************
 SoftwareSerial bluetooth(2, 6); // (TX, RX)
 
 int count = 0;
-char telToOrdi = 'x'; //laisser
-// pour communiquer laisser en char et utiliser ''
+char telToOrdi = 'x'; //leave
 
-// pour sleep
+// for sleep
 int nbTurn = 0;
 
 
-//************************* DESSINS ****************************************
-// dans le fichier Drawing
-// inclue précédamment avec #include "Drawing.h"
+//************************* DRAWING ****************************************
+// in file Drawing
+// include before with #include "Drawing.h"
 
 
 //************************* SETUP DE BASE ****************************************
 void setup()
 {
-  // initialistion
-  for (uint8_t i = 0; i < 8; i++) // nb matrices = 8
+  // initialisation
+  for (uint8_t i = 0; i < 8; i++) // nb matrix = 8
   {
-    matrix[i].begin(0x70 + i);  // matrix[0] à le code 0x70 jusqu'à matrice[7] qui à 0x77
-    matrix[i].clear();
+    matrix[i].begin(0x70 + i);  // matrix[0] have the number 0x70 - because it's like that
+    matrix[i].clear();  // clear
   }
-  // dessin de base
+  // base drawing
   matrix[NR].drawBitmap(0, 0, nose_right_A, 8, 16, LED_ON);
   matrix[NL].drawBitmap(0, 0, nose_left_A, 8, 16, LED_ON);
   matrix[ER].drawBitmap(0, 0, eye_right_A, 8, 16, LED_ON);
@@ -114,11 +103,10 @@ void setup()
   matrix[ML2].drawBitmap(0, 0, mouth_left2_A, 8, 16, LED_ON);
   for (uint8_t i = 0; i < 8; i++)
   {
-    matrix[i].writeDisplay(); //allume les matrices suivant les indications d'avant
+    matrix[i].writeDisplay(); //matrix on 
   }
 
-  // communication Bluetooth
-  // Ouvre la voie série avec le module Bluetooth
+  // Bluetooth communication
   bluetooth.begin(9600);
   bluetooth.println("START");
 
@@ -130,20 +118,20 @@ void setup()
 //************************* EN BOUCLE ****************************************
 void loop()
 /*
-  (début ligne  ,    début colonne   ,   truc à faire init avant  ,   nb lignes en + pour la fin  ,   nb colonnes en + pour la fin  ,   LED_ON)
-  (     0       ,          0         ,      name in Drawing.h     ,               8               ,                16               ,   LED_ON)
+  (start line   ,    start row   ,      thing to do       ,   nb of line  ,   nb of row  ,   LED_ON)
+  (     0       ,      0         ,    name in Drawing.h   ,     8         ,    16        ,   LED_ON)
 */
 {
-  // communication en double => 11
+  // communication in double => 11
   
   // communication
-  if (bluetooth.available()) {  // si il y a une communication du tel vers la carte
+  if (bluetooth.available()) {  // if communication from phone to card
     telToOrdi = bluetooth.read();
   }
 
-  // les communications sont en char donc mettre '' dans les tests ==
+  // communications are in char so let '' in == test
   if (telToOrdi == '1') {
-    bluetooth.println("1"); // confirme quelle est l'expression affichée
+    bluetooth.println("1"); // confirmation send to the phone
     for (uint8_t i = 0; i < 8; i++) {
       matrix[i].clear();
     }
@@ -433,26 +421,27 @@ void loop()
 
   
   bluetooth.println("turn");
-  // ça fait 2 tours avant d'allumer mais je ne sais pas pourquoi (faut pas chercher)
-  // du coup sleep() si 2 tours
-  // fausse communication et communication quand ça tourne => peut décaler => reset avec le bouton sur la carte
+  // it make 2 turn I don't know why (let it like that)
+
+  // so sleep if 2 turn
+  // if there is a fail communication it come back to sleep()
   nbTurn++;
   if (nbTurn > 1){
       sleepPwrDown();
       nbTurn = 0;
   }
 
-  
+
 }
 
 
 
-// premiere communication pour réveiler => mettre qqch + le chiffre voulu
+// first communication to wake it up => 11 instead of 1
 void wakeCallback() {}
 void sleepPwrDown() {
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
   sleep_enable();
-  attachInterrupt(2, wakeCallback, CHANGE); //2 = pate pour reveille (pate TX)
+  attachInterrupt(2, wakeCallback, CHANGE); //2 = pin to wake up (pin TX)
   sleep_mode();
   sleep_disable();
 }
