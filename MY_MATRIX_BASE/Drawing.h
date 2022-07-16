@@ -5,21 +5,10 @@ static const uint8_t PROGMEM
 
 
 /***************************************************/
-// les nose : 
-// !!! ligne 8 = ligne 1 sur la carte
-// !!! ligne 1 = ligne 2 sur la carte
-// c'est décalé de 1
-
-// mouth_left_1
-// les 2 led de devant sont collées ensembles
-// B10000000, ligne 1
-// B10000000, ligne 2
-
-
-/***************************************************/
 //base
 nose_left_A[]=
 {
+B00000000,
 B00000000,
 B10000000,
 B11000000,
@@ -27,10 +16,10 @@ B11000000,
 B11000000,
 B11110000,
 B11111000,
-B00000000,
 },
 nose_right_A[]=
 {
+B00000000,
 B00000000,
 B00000001,
 B00000011,
@@ -38,7 +27,6 @@ B00000011,
 B00000011,
 B00001111,
 B00011111,
-B00000000,
 },
 mouth_left1_A[]=
 {

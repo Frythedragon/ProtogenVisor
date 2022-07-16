@@ -105,20 +105,8 @@ void loop() {
 }
 
 
-
-// !! utilisation de delay au lieu de millis => toute la carte attend
-// => ne pas utiliser avec le code bluetooth => ça ne marche pas à cause des communications
-
-// => ne pas mettre en mode sleep() => si non ça arrête de blink
-
-// difference delay et milli
-// => delay bloque la suite du code
-// => renvoie une valeur qui représente le nombre de millisecondes écoulées depuis la mise en tension de l’Arduino -> max 49jours
-// Dans le cas où vous voudriez avoir des cycles ON et OFF => if ((millis() - previousTime) > blinkInterval)
-
-
 // (début ligne, début colonne  , truc à faire init avant, nb lignes total, nb colonnes total, LED_ON)
-// (     0     ,       0        ,    nom dans Drawing.h  ,        8       ,        16        , LED_ON)
+// (     0     ,       0        ,    name in Drawing.h   ,        8       ,        16        , LED_ON)
 void Blink() {
   eachStep = 0;
   while (eachStep < 13) {

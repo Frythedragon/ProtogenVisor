@@ -131,7 +131,7 @@ void setup()
 void loop()
 /*
   (début ligne  ,    début colonne   ,   truc à faire init avant  ,   nb lignes en + pour la fin  ,   nb colonnes en + pour la fin  ,   LED_ON)
-  (     0       ,          0         ,      nom dans Drawing.h    ,               8               ,                16               ,   LED_ON)
+  (     0       ,          0         ,      name in Drawing.h     ,               8               ,                16               ,   LED_ON)
 */
 {
   // communication en double => 11
